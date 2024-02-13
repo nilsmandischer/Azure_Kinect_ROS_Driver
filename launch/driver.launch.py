@@ -140,7 +140,8 @@ def generate_launch_description():
     launch_ros.actions.Node(
         package='azure_kinect_ros_driver',
         executable='node',
-        name='azure_kinect_master',
+        namespace='azk_master',
+        name='azure_kinect_node',
         output='screen',
         parameters=[
             {'depth_enabled': launch.substitutions.LaunchConfiguration('depth_enabled')},
@@ -167,12 +168,14 @@ def generate_launch_description():
     launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
+        namespace='azk_master',
         name='robot_state_publisher',
         parameters = [{'robot_description' : urdf}],
         condition=conditions.IfCondition(launch.substitutions.LaunchConfiguration("overwrite_robot_description"))),
     launch_ros.actions.Node(
         package='joint_state_publisher',
         executable='joint_state_publisher',
+        namespace='azk_master',
         name='joint_state_publisher',
         arguments=[urdf_path],
         condition=conditions.IfCondition(launch.substitutions.LaunchConfiguration("overwrite_robot_description"))),
@@ -180,6 +183,7 @@ def generate_launch_description():
     launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
+        namespace='azk_master',
         name='robot_state_publisher',
         parameters = [{'robot_description' : urdf}],
         remappings=remappings,
@@ -187,6 +191,7 @@ def generate_launch_description():
     launch_ros.actions.Node(
         package='joint_state_publisher',
         executable='joint_state_publisher',
+        namespace='azk_master',
         name='joint_state_publisher',
         arguments=[urdf_path],
         remappings=remappings,
